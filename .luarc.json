@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "love"
+    ],
+    "diagnostics.exclude": ["build"],
+    "diagnostics.disable": [
+        "need-check-nil"
+    ]
+}
