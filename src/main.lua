@@ -2,6 +2,7 @@ debug = true
 require("runner")
 require("const")
 
+local config = require("config")
 local gfx = require("graphics")
 local sfx = require("sfx")
 local input = require("input")
@@ -48,7 +49,7 @@ i = 1
 gfx.palt(0)
 
 function love.load()
-
+    config.load()
 end
 
 x = 0
@@ -75,3 +76,6 @@ function love.draw()
 
     gfx.finish()
 end
+
+
+

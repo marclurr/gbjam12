@@ -19,6 +19,19 @@ assets.textures.love_logo = LoadImg("data/gfx/love-logo")
 ------ SPRITES ------
 assets.sprites.skelly_full_1 = NewSprite(assets.textures.debug, 64, 16, 16, 16, 1)
 
+assets.sprites.skelly_idle = NewSprite(assets.textures.debug, 0, 152, 16, 16, 1)
+
+assets.sprites.skelly_run_1 = NewSprite(assets.textures.debug, 16, 152, 16, 16, 1)
+assets.sprites.skelly_run_2 = NewSprite(assets.textures.debug, 32, 152, 16, 16, 1)
+assets.sprites.skelly_run_3 = NewSprite(assets.textures.debug, 48, 152, 16, 16, 1)
+assets.sprites.skelly_run_4 = NewSprite(assets.textures.debug, 64, 152, 16, 16, 1)
+
+assets.sprites.skelly_jump = NewSprite(assets.textures.debug, 80, 152, 16, 16, 1)
+assets.sprites.skelly_fall = NewSprite(assets.textures.debug, 96, 152, 16, 16, 1)
+
+assets.sprites.skelly_climb_1 = NewSprite(assets.textures.debug, 112, 152, 16, 16, 1)
+assets.sprites.skelly_climb_2 = NewSprite(assets.textures.debug, 128, 152, 16, 16, 1)
+
 assets.sprites.skelly_die_1 = NewSprite(assets.textures.debug, 168, 32, 18, 16, 1)
 assets.sprites.skelly_die_2 = NewSprite(assets.textures.debug, 186, 32, 18, 16, 1)
 assets.sprites.skelly_die_3 = NewSprite(assets.textures.debug, 204, 32, 18, 16, 1)
@@ -78,7 +91,11 @@ assets.sprites.spark_6 = NewSprite(assets.textures.debug, 232, 64, 16, 16, 1)
 ------ /SPRITES ------
 
 ------ ANIMATIONS  ------
-assets.animations.skelly_idle = NewAnimation(1000, true, assets.sprites.skelly_full_1)
+assets.animations.skelly_idle = NewAnimation(1000, true, assets.sprites.skelly_idle)
+assets.animations.skelly_run = NewAnimation(0.15, true, assets.sprites.skelly_run_1, assets.sprites.skelly_run_2, assets.sprites.skelly_run_3, assets.sprites.skelly_run_4)
+assets.animations.skelly_jump = NewAnimation(0.2, true, assets.sprites.skelly_jump)
+assets.animations.skelly_fall = NewAnimation(0.2, true, assets.sprites.skelly_fall)
+assets.animations.skelly_climb = NewAnimation(0.2, true,assets.sprites.skelly_climb_1,assets.sprites.skelly_climb_2)
 assets.animations.skelly_die = NewAnimation(0.1, false,assets.sprites.skelly_die_1, assets.sprites.skelly_die_2, assets.sprites.skelly_die_3)
 assets.animations.skelly_respawn = NewAnimation(0.1, false,assets.sprites.skelly_die_3, assets.sprites.skelly_die_2, assets.sprites.skelly_die_1,assets.sprites.skelly_full_1 )
 

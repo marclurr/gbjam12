@@ -142,6 +142,13 @@ function M.finish()
     love.graphics.draw(canvas, 0, 0, 0, scale, scale)
 end
 
+function M.disable_shader()
+    love.graphics.setShader()
+end
+
+function M.enable_shader()
+    love.graphics.setShader(shader)
+end
 
 
 return M

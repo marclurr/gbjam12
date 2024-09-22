@@ -20,11 +20,11 @@
             "expandedObjectLayers": [
                 6
             ],
-            "scale": 3,
+            "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 160,
-                "y": 144
+                "x": 323.3333333333333,
+                "y": 224.66666666666663
             }
         },
         "debug.tmx#debug": {
@@ -34,8 +34,8 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 303.25,
-                "y": 465.25
+                "x": 800.25,
+                "y": 720
             }
         },
         "main_tileset.tsx": {

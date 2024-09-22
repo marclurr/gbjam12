@@ -5,10 +5,11 @@ function M.play(obj, animation)
     obj.animation = animation
     obj.animation_t = 0
     obj.animation_frame = 1
+    obj.animation_pause = false
 end
 
 function M.update(dt, obj)
-    if not obj.animation then return end
+    if not obj.animation or obj.animation_pause then return end
     obj.animation_frame = obj.animation_frame or 1
     obj.animation_t = (obj.animation_t or 0) + dt
 

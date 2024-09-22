@@ -76,7 +76,6 @@ local function init_rooms()
         object.y = object.y - 8
 
         if object.gid == COL_PLAYER_START then
-            print(room_i, room_x, room_y, M.h_rooms, object.y)
             local room = M.rooms[room_i]
             room.spawn_point = {
                 x = object.x,

@@ -177,9 +177,18 @@ local function collect_arms(player)
 
 end
 
+local animations = {}
+animations[ST_IDLE] = assets.animations.skelly_idle
+animations[ST_RUN] = assets.animations.skelly_run
+animations[ST_JUMP] = assets.animations.skelly_jump
+animations[ST_FALL] = assets.animations.skelly_fall
+animations[ST_CLIMB] = assets.animations.skelly_climb
+animations[ST_DIE] = assets.animations.skelly_die
+animations[ST_RESPAWN] = assets.animations.skelly_respawn
+
 local function enter_state(player, state, ...)
     if state == ST_DIE then
-        animator.play(player, assets.animations.skelly_die)
+        -- animator.play(player, assets.animations.skelly_die)
         respawn_timer = 1.5
         local dir = unpack({...})
         player.dx = dir * 64
@@ -188,9 +197,11 @@ local function enter_state(player, state, ...)
         if world.player_lives <= 0 then
             world.trigger_gameover()
             respawn_timer = 1.5
+            current_state = state
+            return
         else
             invincibility = 1.5
-            animator.play(player, assets.animations.skelly_respawn)
+            -- animator.play(player, assets.animations.skelly_respawn)
             respawn_timer = 0.4
         end
         -- dir_disabled_timer = 0.3
@@ -214,6 +225,9 @@ local function enter_state(player, state, ...)
         fall_buffer = 6 * 0.0167
     end
 
+    if animations[state] then
+        animator.play(player, animations[state])
+    end
     current_state = state
 end
 
@@ -247,7 +261,7 @@ function M.update(dt, player)
     if input.is_pressed("up") then iy = iy - 1 end
     if input.is_pressed("down") then iy = iy + 1 end
     if input.is_just_pressed("a") then jump_buffer = 3 * 0.0167 end
-    if input.is_just_pressed("b") then arm_control.throw(player.x, player.y, player.flip_x and -1 or 1) end
+    if input.is_just_pressed("b") and (current_state ~= ST_DIE and current_state ~= ST_RESPAWN ) then  arm_control.throw(player.x, player.y, player.flip_x and -1 or 1) end
     local climb_requested = input.is_pressed("up")
 
     collect_arms(player)
@@ -320,6 +334,7 @@ function M.update(dt, player)
     elseif current_state == ST_CLIMB then
         player.dy = iy * 40
 
+        player.animation_pause = player.dy == 0
         local result = do_movement(dt, player)
         -- if jump_buffer > 0  dthen return enter_state(player, ST_FALL) end
         if jump_buffer > 0 then return enter_state(player, ST_JUMP, jump_velocity * 0.8) end

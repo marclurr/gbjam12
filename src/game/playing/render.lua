@@ -15,6 +15,32 @@ local M = {}
 
 
 
+local function print_centre(text, y, col)
+    local x = WIDTH / 2 - (#text / 2) * 8
+    print2(text, x, y, col)
+end
+
+local function draw_tile_collision()
+    local bump = world.bump_world
+    gfx.disable_shader()
+    local items, len = bump:getItems()
+
+    for i = 1, len do
+        local item = items[i]
+        if item.type == COL_SOLID then
+            love.graphics.setColor(1, 0, 0, 0.5)
+            love.graphics.rectangle("fill", item.x, item.y,  8, 8)
+        elseif item.type == COL_ONEWAY then
+            love.graphics.setColor(1, 0, 1, 0.5)
+            love.graphics.rectangle("fill", item.x, item.y,  8, 4)
+        elseif item.type == COL_ROPE then
+            love.graphics.setColor(1, 1, 0, 0.5)
+            love.graphics.rectangle("fill", item.x, item.y,  4, 8)
+        end
+    end
+    gfx.enable_shader()
+end
+
 function M.draw()
     gfx.cls(0)
 
@@ -37,6 +63,8 @@ function M.draw()
     tilemap.draw_layer(world.map, "background")
     gfx.palt()
     tilemap.draw_layer(world.map, "foreground")
+
+    draw_tile_collision()
 
     gfx.palt(0)
 
@@ -77,13 +105,14 @@ function M.draw()
     if world.gameover then
 
         gfx.pal(3, math.floor(world.gameover_fadein))
-        print2("GAME OVER", 44, 64)
+        print_centre("GAME OVER", 64)
         gfx.pal()
     end
 
     if world.win then
         gfx.pal(3, math.floor(world.gameover_fadein))
-        print2("you won!", 44, 64)
+        print_centre("you won!", 48)
+        print_centre("thanks for playing", 72)
         gfx.pal()
     end
 
