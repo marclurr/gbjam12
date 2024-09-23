@@ -1,4 +1,4 @@
-NAME := gbjam12
+NAME := skellys-skirmish
 
 SRC_DIR  := ./src
 BUILD_DIR := ./build
@@ -13,7 +13,8 @@ $(WEB_ARCHIVE): $(WEB_DIR)
 	zip -r ../../$(WEB_ARCHIVE) *
 
 $(WEB_DIR): $(ARCHIVE)
-	love.js $(COMPAT) -m 32000000 -t $(NAME) $(ARCHIVE) $(WEB_DIR)
+	love.js $(COMPAT) -m 32000000 -t $(NAME) $(ARCHIVE) $(WEB_DIR); \
+	rsync -vr html/* $(WEB_DIR)
 
 $(ARCHIVE): $(BUILD_DIR)
 	cd $(BUILD_DIR); \
