@@ -13,6 +13,7 @@ local assets = {
 
 assets.textures.splash = LoadImg("data/gfx/splash")
 assets.textures.debug = LoadImg("data/gfx/debug")
+assets.textures.title_screen = LoadImg("data/gfx/title")
 assets.textures.font_score = LoadImg("data/gfx/font_score")
 assets.textures.love_logo = LoadImg("data/gfx/love-logo")
 
@@ -61,6 +62,11 @@ assets.sprites.ghost_spin_1 = NewSprite(assets.textures.debug, 64, 88, 16, 13, 1
 assets.sprites.ghost_spin_2 = NewSprite(assets.textures.debug, 80, 88, 16, 13, 1)
 assets.sprites.ghost_spin_3 = NewSprite(assets.textures.debug, 96, 88, 16, 13, 1)
 assets.sprites.ghost_spin_4 = NewSprite(assets.textures.debug, 112, 88, 16, 13, 1)
+
+assets.sprites.ghost_inv_1 = NewSprite(assets.textures.debug, 0,  104, 16, 13, 3)
+assets.sprites.ghost_inv_2 = NewSprite(assets.textures.debug, 16, 104, 16, 13, 3)
+assets.sprites.ghost_inv_3 = NewSprite(assets.textures.debug, 32, 104, 16, 13, 3)
+assets.sprites.ghost_inv_4 = NewSprite(assets.textures.debug, 48, 104, 16, 13, 3)
 
 assets.sprites.frank_1 = NewSprite(assets.textures.debug, 80, 72, 16, 16, 1)
 assets.sprites.frank_2 = NewSprite(assets.textures.debug, 96, 72, 16, 16, 1)
@@ -121,5 +127,9 @@ end
 assets.tilemaps.levels = function ()
     return tilemap.load("data/tilemaps/levels.lua", assets.atlases.debug_atlas)
 end
+
+------- MUSIC ------
+
+assets.music.bgmusic = love.audio.newSource("data/music/music.wav", "static")
 
 return assets

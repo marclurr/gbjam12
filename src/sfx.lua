@@ -1,18 +1,55 @@
 local config = require("config")
 
 local db = {}
-db.menu_move = {"data/sfx/menu_move.wav", "static"}
-db.menu_accept = {"data/sfx/accept.wav", "static"}
+db.menu_move = {"data/sfx/menu_move.wav", "static", 2}
+db.menu_accept = {"data/sfx/accept.wav", "static", 1}
+db.jump = {"data/sfx/jump.wav", "static", 3}
+db.dink = {"data/sfx/dink.wav", "static", 2}
+db.activate = {"data/sfx/activate.wav", "static", 1}
+db.player_die = {"data/sfx/player_die.wav", "static", 1}
+db.throw = {"data/sfx/throw.wav", "static", 2}
+db.collect = {"data/sfx/collect.wav", "static", 1}
+db.hit = {"data/sfx/hit.wav", "static", 2}
 
 for k,v in pairs(db) do
-    db[k] = love.audio.newSource(unpack(v))
+    local sources = {}
+    local file, type, count = unpack(v)
+    local source = love.audio.newSource(file, type)
+
+    table.insert(sources, source)
+
+    for i = 1, count - 1 do
+        table.insert(sources, source:clone())
+    end
+
+    db[k] = sources
 end
 
 
+local playing
 
-return function(name)
+return function(name, force)
     if not db[name] then return end
-    local src = db[name]:clone()
-    src:setVolume(config.values.sfx / 9)
-    love.audio.play(src)
+
+    if playing and playing:isPlaying() then
+        playing:stop()
+    end
+    local sources = db[name]
+    local source = sources[1]
+    source:setVolume(config.values.sfx / 9)
+    playing = source
+    love.audio.play(source)
+    -- for i = 1, #sources do
+    --     local source = sources[i]
+    --     if not source:isPlaying() or force then
+    --         if source:isPlaying() then source:stop() end
+    --         source:setVolume(config.values.sfx / 9)
+    --         love.audio.play(source)
+    --         return
+    --     end
+    -- end
+
+
+    -- local src = db[name]
+
 end

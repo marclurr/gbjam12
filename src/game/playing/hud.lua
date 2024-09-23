@@ -11,12 +11,14 @@ function M.draw()
     gfx.rectangle("fill", 0, 0, WIDTH, 8, 0)
 
     -- hp
-    for i = 0, 2 do
-        local x = i * 10
-        local spr = assets.sprites.heart_full
-        if world.player_lives < (i + 1) then spr = assets.sprites.heart_empty end
+    if world.mode == MODE_ARCADE then
+        for i = 0, 2 do
+            local x = i * 10
+            local spr = assets.sprites.heart_full
+            if world.player_lives < (i + 1) then spr = assets.sprites.heart_empty end
 
-        gfx.draw_sprite(spr, x + 1, 0)
+            gfx.draw_sprite(spr, x + 1, 0)
+        end
     end
 
 

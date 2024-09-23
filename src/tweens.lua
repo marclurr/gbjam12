@@ -26,11 +26,19 @@ function M.update(dt)
         local x = t.t / t.duration
         if x > 1 then
             x = 1
-            t.object[t.field] = t.end_value
+            if type(t.field) == "function" then
+                t.field(t.object,  t.end_value)
+            else
+                t.object[t.field] = t.end_value
+            end
             if t.on_complete then t.on_complete() end
             table.remove(tweens, i)
         else
-            t.object[t.field] = math.lerp(t.start_value, t.end_value, x)
+            if type(t.field) == "function" then
+                t.field(t.object,  math.lerp(t.start_value, t.end_value, x))
+            else
+                t.object[t.field] = math.lerp(t.start_value, t.end_value, x)
+            end
         end
     end
 end

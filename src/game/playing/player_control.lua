@@ -2,6 +2,7 @@ local animator = require("animator")
 local assets = require("game.assets")
 local input = require("input")
 local gfx = require("graphics")
+local sfx = require("sfx")
 
 local world = require("game.playing.world")
 
@@ -165,12 +166,18 @@ local function bump_enemy(player, old_x, old_y)
 end
 
 local function collect_arms(player)
+    if current_state == ST_DIE then
+        for i = 1, #world.player_arms do
+            world.arm_collected(world.player_arms[i])
+        end
+    end
     local bump = world.bump_world
     local rx, ry, rw, rh = bump:getRect(player)
     local items, len = bump:queryRect(rx, ry, rw, rh, FilterByType(COL_ARM))
 
     for i = 1, len do
         if items[i].state == 2 then -- tODO something better
+            sfx("activate")
             world.arm_collected(items[i])
         end
     end
@@ -193,6 +200,7 @@ local function enter_state(player, state, ...)
         local dir = unpack({...})
         player.dx = dir * 64
         player.dy = jump_velocity
+        sfx("player_die")
     elseif state == ST_RESPAWN then
         if world.player_lives <= 0 then
             world.trigger_gameover()
@@ -208,6 +216,7 @@ local function enter_state(player, state, ...)
         -- player.dx = dir * 56
     -- enter_state(player, ST_JUMP, jump_velocity * 0.8)
     elseif state == ST_JUMP then
+        sfx("jump")
         jump_buffer = 0
         local vel = unpack({...}) or jump_velocity
         player.dy = vel
@@ -337,7 +346,7 @@ function M.update(dt, player)
         player.animation_pause = player.dy == 0
         local result = do_movement(dt, player)
         -- if jump_buffer > 0  dthen return enter_state(player, ST_FALL) end
-        if jump_buffer > 0 then return enter_state(player, ST_JUMP, jump_velocity * 0.8) end
+        if jump_buffer > 0 then return enter_state(player, ST_JUMP, jump_velocity * 0.9) end
         if not can_climb(player) then return enter_state(player, ST_FALL) end
     end
 

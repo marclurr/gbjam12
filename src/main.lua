@@ -10,12 +10,13 @@ local textureatlas = require("textureatlas")
 local tilemap = require("tilemap")
 local gamestate = require("gamestate")
 
+SplashSate = require("game.splash_state")
 TitleState = require("game.title.title_state")
 OptionsState = require("game.options_state")
 CreditsState = require("game.credits_state")
 PlayingState = require("game.playing.playing_state")
 
-gamestate.push(TitleState)
+gamestate.push(SplashSate)
 
 gfx.set_palette(3)
 
@@ -27,7 +28,7 @@ debug_atlas = textureatlas.new(debug, 8, 8)
 
 debug_map = tilemap.load("data/tilemaps/debug.lua", debug_atlas)
 
-music = love.audio.newSource("data/music/test.wav", "stream")
+-- music = love.audio.newSource("data/music/test.wav", "stream")
 
 pals = {
     {0,1,2,3},

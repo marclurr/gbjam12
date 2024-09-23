@@ -64,7 +64,7 @@ function M.draw()
     gfx.palt()
     tilemap.draw_layer(world.map, "foreground")
 
-    draw_tile_collision()
+    -- draw_tile_collision()
 
     gfx.palt(0)
 

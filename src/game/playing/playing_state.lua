@@ -1,4 +1,5 @@
 local assets = require("game.assets")
+local music = require("music")
 local tweens = require("tweens")
 local world = require("game.playing.world")
 local logic = require("game.playing.logic")
@@ -10,6 +11,11 @@ local M = {}
 
 function M.enter(mode)
     world.init(assets.tilemaps.levels(), mode)
+    music.play(assets.music.bgmusic)
+end
+
+function M.exit()
+    music.stop()
 end
 
 function M.update(dt)

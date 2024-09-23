@@ -22,8 +22,17 @@ function M.update(dt)
     local entities = world.entities
 
     if world.gameover_fadein == 3 and (input.is_just_pressed("a") or input.is_just_pressed("b") or input.is_just_pressed("start")) then
-        gamestate.switch(TitleState, MODE_ARCADE)
+        gamestate.switch(TitleState)
         return
+    end
+
+    if input.is_just_pressed("select") then
+        for i = #world.entities, 1, -1 do
+            local entity = world.entities[i]
+            if entity.type == COL_ENEMY then
+                world.remove_entity_by_id(i)
+            end
+        end
     end
 
     if world.enemy_count() == 0 and world.pickup_count() == 0 then
@@ -78,7 +87,12 @@ function M.update(dt)
 
             elseif entity.type == COL_PICKUP then
                 if not entity.no_collect then
+                    entity.destroy = world.get_room(entity.x, entity.y) ~= world.current_room
+                    entity.dy = entity.dy + 65 * dt
                     entity.age = entity.age + dt
+                    entity.x, entity.y = bump:move(entity, entity.x, entity.y + entity.dy * dt, function (item, other)
+                        return (world.is_solid(other) or world.is_one_way(other)) and "slide"
+                    end)
 
                     if entity.age > 5 then
                         if GlobalT % 5 == 0 then entity.visible = not entity.visible end
@@ -92,6 +106,7 @@ function M.update(dt)
                         if math.rects_overlap(px, py, pw, ph, ex, ey, ew, eh) then
                             world.player_score = world.player_score + 300
                             animator.play(entity, assets.animations.spark)
+                            sfx("collect", true)
                             entity.no_collect = true
                         end
                     end

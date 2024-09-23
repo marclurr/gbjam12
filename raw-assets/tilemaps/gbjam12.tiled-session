@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "main_tileset.tsx",
+    "activeFile": "levels.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -23,19 +23,19 @@
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 323.3333333333333,
-                "y": 224.66666666666663
+                "x": 160,
+                "y": 142.66666666666669
             }
         },
         "debug.tmx#debug": {
             "scaleInDock": 2
         },
         "levels.tmx": {
-            "scale": 2,
-            "selectedLayer": 1,
+            "scale": 3,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 800.25,
-                "y": 720
+                "x": 711.5,
+                "y": 116.16666666666669
             }
         },
         "main_tileset.tsx": {
@@ -75,8 +75,8 @@
     "project": "gbjam12.tiled-project",
     "recentFiles": [
         "debug.tmx",
-        "levels.tmx",
         "main_tileset.tsx",
+        "levels.tmx",
         "untitled.tmx",
         "collision.tsx"
     ],

@@ -1,4 +1,5 @@
 local bump = require("lib.bump")
+local music = require("music")
 local tweens = require("tweens")
 local objects = require("game.playing.objects")
 local levels = require("game.playing.levels")
@@ -119,6 +120,7 @@ function M.trigger_gameover()
     M.gameover_t = 1
     M.gameover_fadein = 0
     tweens.new_tween(M, "gameover_fadein", 0, 3, 1)
+    music.fadeout(3)
 end
 
 function M.trigger_win()
@@ -127,6 +129,7 @@ function M.trigger_win()
     M.gameover_t = 1
     M.gameover_fadein = 0
     tweens.new_tween(M, "gameover_fadein", 0, 3, 1)
+    music.fadeout(3)
 end
 
 function M.init(map, mode)

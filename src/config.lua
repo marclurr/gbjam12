@@ -21,10 +21,16 @@ end
 
 function M.set_sfx(vol)
     M.values.sfx = vol
+    -- if love.system.getOS() == "Web" then
+    --     M.values.sfx = M.values.sfx * 0.7
+    -- end
 end
 
 function M.set_music(vol)
     M.values.music = vol
+    -- if love.system.getOS() == "Web" then
+    --     M.values.music = M.values.music * 0.7
+    -- end
 end
 
 function M.persist()

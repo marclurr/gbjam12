@@ -1,3 +1,4 @@
+local sfx = require("sfx")
 local world = require("game.playing.world")
 local objects = require("game.playing.objects")
 local enemy = require("game.playing.enemy")
@@ -17,6 +18,7 @@ local rebound_velocity = -math.sqrt(2 * gravity * rebound_height)
 
 function M.throw(x, y, dir)
     if world.game_state.arm_count > 0 then
+        sfx("throw")
         local arm = objects.make("arm", x, y)
         arm.dx = dir * 128
         arm.dy = 0
@@ -40,7 +42,7 @@ function M.update(dt, arm)
     local ax, ay, items, len = bump:move(arm, goal_x, goal_y, function (item, other)
         if  (item.state == ST_THROWN and other.type == COL_ENEMY and not enemy.is_stunned(other))
             or (item.state == ST_THROWN and other.type == COL_INTERACT)
-            or world.is_solid(other) or (other.type == COL_ONEWAY and item.state == ST_IDLE)
+            or world.is_solid(other) or ( arm.y + arm.cheight <= other.y and other.type == COL_ONEWAY and item.state == ST_IDLE)
             or (item.state == ST_IDLE and other.state == ST_IDLE) then
             return "slide"
         end
@@ -58,22 +60,27 @@ function M.update(dt, arm)
 
                 if other.type == COL_INTERACT and other.interact then
                     other:interact(world)
+                    -- sfx("dink")
                 elseif other.type == COL_ENEMY then
                     enemy.take_damage(other, math.sign(other.x - arm.x), DMG_ARM)
+                else
+                    sfx("dink")
                 end
-                -- TODO damager/interact with things
+
             elseif arm.state == ST_IDLE  then
-                local dot = math.dot(arm.dx, arm.dy, item.normal.x, item.normal.y)
-                local rx = (2 * item.normal.x * dot) - arm.dx
-                local ry = (2 * item.normal.y * dot) - arm.dy
-                arm.dx = -rx * 0.3
-                arm.dy = -ry * 0.3
-                if item.other.type == COL_ARM then
-                    item.other.dx = item.other.dx + -arm.dx  * 0.5
-                    item.other.dy = item.other.dy + -arm.dy * 0.5
+                if math.abs(arm.dx) >= 1 then
 
+                    local dot = math.dot(arm.dx, arm.dy, item.normal.x, item.normal.y)
+                    local rx = (2 * item.normal.x * dot) - arm.dx
+                    local ry = (2 * item.normal.y * dot) - arm.dy
+                    arm.dx = -rx * 0.3
+                    arm.dy = -ry * 0.3
+                    if item.other.type == COL_ARM then
+                        item.other.dx = item.other.dx + -arm.dx  * 0.5
+                        item.other.dy = item.other.dy + -arm.dy * 0.5
+
+                    end
                 end
-
             end
 
     end

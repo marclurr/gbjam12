@@ -1,5 +1,6 @@
 local assets = require("game.assets")
 local gfx = require("graphics")
+local sfx = require("sfx")
 
 local objects = {}
 objects.player = {
@@ -51,6 +52,7 @@ objects.switch = {
     sprite = assets.sprites.switch,
     flash = 0,
     interact = function (self, world)
+        sfx("activate")
         world.blocks_on = not world.blocks_on
         self.flash = 4
     end,
@@ -90,6 +92,7 @@ objects.frank = {
 }
 
 objects.pumpkin = {
+    dy = 0,
     cx = 1, cy = 1, cwidth = 14, cheight = 14,
     type = COL_PICKUP,
     sprite = assets.sprites.pumpkin_1,

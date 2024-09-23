@@ -1,3 +1,4 @@
+local assets = require("game.assets")
 local gfx = require("graphics")
 local sfx = require("sfx")
 local input = require("input")
@@ -14,19 +15,19 @@ local up_y = 92
 local down_y = 109
 
 local options = {
-    "arcade",
     "casual",
+    "arcade",
     "options",
     "credits"
 }
 
 local handlers = {
     function ()
-        gamestate.switch(PlayingState, MODE_ARCADE)
+        gamestate.switch(PlayingState, MODE_CASUAL)
     end,
 
     function ()
-        gamestate.switch(PlayingState, MODE_CASUAL)
+        gamestate.switch(PlayingState, MODE_ARCADE)
     end,
 
     function ()
@@ -46,6 +47,7 @@ local M = {}
 
 
 function M.enter()
+    input.discard()
     selected = 1
     locked = false
     M.palette = 0
@@ -85,8 +87,9 @@ function M.draw()
         gfx.pal(i - 1, pal[i])
     end
 
-    gfx.rectangle("fill", 8, 8, WIDTH - 16, 64,  3)
-    gfx.rectangle("line", 16, 16, WIDTH - 32, 64 -16,  0)
+    gfx.draw(assets.textures.title_screen, 0, 0)
+    -- gfx.rectangle("fill", 8, 8, WIDTH - 16, 64,  3)
+    -- gfx.rectangle("line", 16, 16, WIDTH - 32, 64 -16,  0)
     print_centre("[", up_y)
     print_centre(options[selected], 100)
     print_centre("\\", down_y)
@@ -96,11 +99,3 @@ function M.draw()
 end
 
 return M
-
---[[
---------------------
-   Palette    <1>
-   Scale      <6>
-   Music      <10>
-   Sfx        <10>
-   ]]

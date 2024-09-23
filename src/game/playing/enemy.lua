@@ -1,5 +1,6 @@
 local assets = require("game.assets")
 local gfx = require("graphics")
+local sfx = require("sfx")
 
 local world = require("game.playing.world")
 
@@ -66,7 +67,7 @@ updaters.frank = function(dt, enemy)
     local goal_y = enemy.y + enemy.dy * dt
 
     local ax, ay, items, len = bump:move(enemy, goal_x, goal_y, function (item, other)
-        return (world.is_solid(other) or world.is_one_way(other)) and "slide"
+        return (world.is_solid(other) or (world.is_one_way(other) and enemy.y + enemy.cheight <= other.y and enemy.dy > 0)) and "slide"
     end)
 
     enemy.x, enemy.y = ax, ay
@@ -90,7 +91,9 @@ updaters.frank = function(dt, enemy)
     if enemy.dir == 1 then qp_x = qp_x + enemy.cwidth end
 
     -- really not sure why queryPoint wouldn't work properly
-    items, len = bump:queryRect(qp_x, qp_y, 1, 1)
+    items, len = bump:queryRect(qp_x, qp_y, 1, 1, function(item)
+        return world.is_solid(item) or world.is_one_way(item)
+    end)
     if enemy.dy == 0  and len == 0 then
         new_dir = -1 * enemy.dir
     end
@@ -104,11 +107,13 @@ function M.take_damage(obj, dir, type)
 
     if M.is_stunned(obj) and type == DMG_BONK then
         obj.dead = true
+        obj.dead_t = 4
         obj.animation = obj.dead_animation
         obj.dx = dirs[1 + math.round(love.math.random())] * 128
         obj.dy = -128
         world.player_score = world.player_score + 150
     elseif not M.is_stunned(obj) and type == DMG_ARM then
+        sfx("hit")
         obj.stunned = {
             t = 3.5,
             animation = assets.animations.stars
@@ -127,6 +132,11 @@ end
 
 
 function M.death_bounce(dt, enemy)
+    enemy.dead_t = enemy.dead_t - dt
+    if (enemy.dead_t <= 0 ) then
+        enemy.destroy = true
+        return
+    end
     local bump = world.bump_world
     local room = world.current_room
     local room_x = room.x * WIDTH
