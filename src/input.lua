@@ -84,7 +84,6 @@ function M.is_just_released(action)
 end
 
 function love.keypressed(key, scancode)
-    if debug and scancode == "escape" then return love.event.quit() end
     press(keys_lut[scancode])
 end
 

@@ -26,14 +26,14 @@ function M.update(dt)
         return
     end
 
-    if input.is_just_pressed("select") then
-        for i = #world.entities, 1, -1 do
-            local entity = world.entities[i]
-            if entity.type == COL_ENEMY then
-                world.remove_entity_by_id(i)
-            end
-        end
-    end
+    -- if input.is_just_pressed("select") then
+    --     for i = #world.entities, 1, -1 do
+    --         local entity = world.entities[i]
+    --         if entity.type == COL_ENEMY then
+    --             world.remove_entity_by_id(i)
+    --         end
+    --     end
+    -- end
 
     if world.enemy_count() == 0 and world.pickup_count() == 0 then
         world.next_level()

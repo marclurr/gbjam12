@@ -51,6 +51,9 @@ function M.enter()
     selected = 1
     locked = false
     M.palette = 0
+    gfx.disable_pals = false
+    gfx.pal()
+    gfx.palt()
 end
 
 function M.update(dt)
@@ -82,14 +85,13 @@ end
 function M.draw()
     gfx.cls()
 
-    local pal = pals[math.floor(M.palette) + 1]
-    for i = 1, #pal do
-        gfx.pal(i - 1, pal[i])
-    end
+    -- local pal = pals[math.floor(M.palette) + 1]
+    -- for i = 1, #pal do
+    --     gfx.pal(i - 1, pal[i])
+    -- end
 
     gfx.draw(assets.textures.title_screen, 0, 0)
-    -- gfx.rectangle("fill", 8, 8, WIDTH - 16, 64,  3)
-    -- gfx.rectangle("line", 16, 16, WIDTH - 32, 64 -16,  0)
+
     print_centre("[", up_y)
     print_centre(options[selected], 100)
     print_centre("\\", down_y)

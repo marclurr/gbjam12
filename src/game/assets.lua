@@ -130,6 +130,6 @@ end
 
 ------- MUSIC ------
 
-assets.music.bgmusic = love.audio.newSource("data/music/music.wav", "static")
+assets.music.bgmusic = love.audio.newSource("data/music/music.wav", "stream")
 
 return assets

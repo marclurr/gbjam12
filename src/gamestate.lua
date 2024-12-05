@@ -56,11 +56,19 @@ function M.update(dt)
     end
 end
 
-function M.draw()
-    local current = get_current()
-    if current and current.draw then
-        current.draw()
+function M.draw(layer)
+    for i = 1, #stack do
+        local state = stack[i]
+        if state.draw then
+            state.draw()
+        end
     end
+    -- layer = layer or #stack
+    -- local current = stack[layer]
+    -- -- local current = get_current()
+    -- if current and current.draw then
+    --     current.draw()
+    -- end
 end
 
 

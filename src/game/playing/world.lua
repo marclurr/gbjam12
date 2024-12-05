@@ -138,7 +138,9 @@ function M.init(map, mode)
        x = 1, y = 0,
        width = 0, height = HEIGHT
     }
+    M.paused = false
     M.gameover = false
+    M.win = false
     M.gameover_t = 1
     M.gameover_fadein = 0
     M.map = map

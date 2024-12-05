@@ -1,3 +1,6 @@
+local input = require("input")
+local gamestate = require("gamestate")
+local audio = require("audio")
 local assets = require("game.assets")
 local music = require("music")
 local tweens = require("tweens")
@@ -14,11 +17,24 @@ function M.enter(mode)
     music.play(assets.music.bgmusic)
 end
 
+function M.pause()
+    audio.pause_all()
+end
+
+function M.resume()
+    audio.resume_all()
+end
+
 function M.exit()
     music.stop()
 end
 
 function M.update(dt)
+    if input.is_just_pressed("start") then
+        return gamestate.push(PausedState)
+    end
+
+    if world.paused then return end
     tweens.update(dt)
     world.update(dt)
     logic.update(dt)

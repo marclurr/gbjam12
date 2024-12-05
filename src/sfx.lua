@@ -38,18 +38,7 @@ return function(name, force)
     local source = sources[1]
     source:setVolume(config.values.sfx / 9)
     playing = source
-    love.audio.play(source)
-    -- for i = 1, #sources do
-    --     local source = sources[i]
-    --     if not source:isPlaying() or force then
-    --         if source:isPlaying() then source:stop() end
-    --         source:setVolume(config.values.sfx / 9)
-    --         love.audio.play(source)
-    --         return
-    --     end
-    -- end
+    local result = love.audio.play(source)
 
-
-    -- local src = db[name]
-
+    print("playing ", name, result)
 end

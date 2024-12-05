@@ -15,6 +15,7 @@ TitleState = require("game.title.title_state")
 OptionsState = require("game.options_state")
 CreditsState = require("game.credits_state")
 PlayingState = require("game.playing.playing_state")
+PausedState = require("game.paused_state")
 
 gamestate.push(SplashSate)
 
@@ -60,7 +61,7 @@ GlobalT = 0
 function love.update(dt)
     if input.is_pressed("a") and input.is_pressed("b") and input.is_pressed("start") and input.is_pressed("select") then
         GlobalT = 0
-        gamestate.switch(TitleState, MODE_ARCADE)
+        gamestate.switch(TitleState)
     else
         GlobalT = GlobalT + 1
         gamestate.update(dt)
